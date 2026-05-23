@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ZZ IA — L'essentiel de l'IA, chaque semaine. Sans effort.</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#fff;color:#0A0A0A;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:root{--y:#FFBF00;--b:#0A0A0A;--w:#fff;--of:#F8F7F2;--g:#6B6B6B;--brd:2.5px solid #0A0A0A}
+.ctr{max-width:920px;margin:0 auto;padding:0 28px}
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--y);color:var(--b);border:var(--brd);padding:4px 14px;font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.tag-inv{background:var(--b);color:var(--y)}.tag-out{background:transparent}
+.sec{padding:80px 0;border-bottom:var(--brd)}
+.stag{display:block;max-width:fit-content;margin:0 auto 18px}
+.stitle{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;text-align:center;margin-bottom:14px;line-height:1.05;letter-spacing:-.025em;text-transform:uppercase}
+.ssub{text-align:center;color:var(--g);font-size:1rem;max-width:560px;margin:0 auto 48px;line-height:1.6}
+.btn{display:inline-block;background:var(--y);color:var(--b);font-weight:900;font-size:.92rem;padding:14px 30px;border:var(--brd);cursor:pointer;text-transform:uppercase;letter-spacing:.05em;transition:all .15s;box-shadow:4px 4px 0 #0A0A0A}
+.btn:hover{background:var(--b);color:var(--y);box-shadow:none;transform:translate(4px,4px)}
+.btn-inv{background:var(--b);color:var(--y)}.btn-inv:hover{background:var(--y);color:var(--b)}
+.btn-out{background:transparent;color:var(--b);box-shadow:4px 4px 0 #0A0A0A}.btn-out:hover{background:var(--b);color:var(--w);box-shadow:none;transform:translate(4px,4px)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}
+
+/* BANNER */
+.fbanner{background:var(--y);border-bottom:var(--brd);padding:9px 0;text-align:center;font-size:.82rem;font-weight:800;color:var(--b)}
+.fbanner a{color:var(--b);text-decoration:underline;text-underline-offset:3px;margin-left:10px;font-weight:900}
+.fc-pill{display:inline-flex;align-items:center;margin:0 10px;background:var(--b);color:var(--y);padding:1px 12px;font-size:.78rem;font-weight:900}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--w);border-bottom:var(--brd)}
+.nav-i{max-width:920px;margin:0 auto;display:flex;align-items:stretch;justify-content:space-between;min-height:56px}
+.logo-wrap{display:flex;align-items:center;padding:0 24px;border-right:var(--brd)}
+.nl{display:flex;align-items:center}
+.nl a{padding:0 18px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;height:100%;display:flex;align-items:center;border-right:var(--brd);transition:background .15s}
+.nl a:hover{background:var(--y)}
+.nav-cta{display:flex;align-items:center;padding:0 20px}
+
+/* HERO */
+#hero{border-bottom:var(--brd)}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;min-height:500px}
+.hero-l{padding:60px 44px 60px 28px;border-right:var(--brd);display:flex;flex-direction:column;justify-content:center}
+.hero-r{background:var(--y);padding:40px 28px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-r::before{content:'ZZ';position:absolute;font-size:260px;font-weight:900;color:rgba(0,0,0,.07);bottom:-40px;right:-24px;line-height:1;letter-spacing:-.05em;pointer-events:none}
+.htag{margin-bottom:20px}
+.htitle{font-size:clamp(2.6rem,5.5vw,4rem);font-weight:900;line-height:.97;letter-spacing:-.04em;margin-bottom:22px;text-transform:uppercase}
+.hy{color:var(--b);background:var(--y);padding:0 4px;display:inline;line-height:1.1}
+.hero-l .hy{-webkit-text-stroke:0}
+.hsub{font-size:1rem;color:var(--g);margin-bottom:28px;line-height:1.6;max-width:380px}
+.hform{display:flex;flex-direction:column;gap:0;margin-bottom:12px;max-width:340px;border:var(--brd);box-shadow:4px 4px 0 #0A0A0A}
+.hform input{background:var(--w);border:none;border-bottom:var(--brd);padding:13px 16px;font-size:.92rem;color:var(--b);outline:none}
+.hform input::placeholder{color:#999}
+.hform .btn{border:none;box-shadow:none;transform:none;text-align:center;width:100%;font-size:.88rem;padding:13px}
+.hform .btn:hover{transform:none;box-shadow:none}
+.htrust{font-size:.75rem;color:var(--g);max-width:340px}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;border-top:var(--brd);margin-top:auto;position:relative;z-index:1}
+.hs{padding:20px;border-top:var(--brd)}.hs:nth-child(even){border-left:var(--brd)}
+.hs .sn{font-size:2rem;font-weight:900;line-height:1;margin-bottom:2px;color:var(--b)}
+.hs .sl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:rgba(10,10,10,.55)}
+
+/* SBAR */
+.sbar{background:var(--b);border-bottom:var(--brd);padding:11px 0}
+.sbar-i{display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.sbar-item{display:flex;align-items:center;gap:8px;font-size:.79rem;color:var(--w);font-weight:600;padding:4px 22px;border-right:1px solid rgba(255,255,255,.15)}
+.sbar-item:last-child{border-right:none}
+.sbar-dot{width:6px;height:6px;background:var(--y);flex-shrink:0}
+
+/* PREVIEW */
+.pw{border:var(--brd);overflow:hidden;max-width:600px;margin:0 auto;box-shadow:6px 6px 0 #0A0A0A}
+.ph{background:var(--b);padding:11px 20px;display:flex;align-items:center;gap:12px}
+.pdots{display:flex;gap:5px}.pdots span{width:9px;height:9px;border-radius:50%}
+.pdots span:nth-child(1){background:#ff5f57}.pdots span:nth-child(2){background:#ffbd2e}.pdots span:nth-child(3){background:#28c840}
+.psubj{font-size:.78rem;color:#888;flex:1;text-align:center}.psubj strong{color:var(--w)}
+.pb{padding:26px 30px}
+.pgreet{font-size:.86rem;color:var(--g);margin-bottom:22px;line-height:1.5}
+.prub{margin-bottom:20px;padding-bottom:20px;border-bottom:1.5px solid #E8E8E8}
+.prub:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.prhd{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.prl{background:var(--y);color:var(--b);border:1.5px solid var(--b);font-size:.64rem;font-weight:900;padding:2px 8px;text-transform:uppercase;letter-spacing:.08em}
+.prl-prem{background:var(--b);color:var(--y);border-color:var(--b)}
+.pr-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g)}
+.prub h4{font-size:.9rem;font-weight:800;margin-bottom:5px}.prub p{font-size:.81rem;color:var(--g);line-height:1.55}
+.blr{filter:blur(4px);user-select:none;opacity:.5}
+.pu{text-align:center;background:var(--y);border:var(--brd);padding:14px;margin-top:10px}
+.pu p{font-size:.8rem;font-weight:700;margin-bottom:10px}
+
+/* VS */
+.vsg{display:grid;grid-template-columns:1fr 1fr;border:var(--brd);box-shadow:6px 6px 0 #0A0A0A;max-width:720px;margin:0 auto}
+.vsc{padding:30px}.vb{}.va{background:var(--of);border-left:var(--brd)}
+.vsc h3{font-size:.78rem;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:9px;text-transform:uppercase;letter-spacing:.07em}
+.vsl{list-style:none}
+.vsl li{display:flex;align-items:flex-start;gap:11px;font-size:.84rem;margin-bottom:11px;color:#444;line-height:1.45}
+.vi{flex-shrink:0;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:900;margin-top:3px}
+.vix{background:var(--b);color:var(--y)}.vic{background:var(--y);color:var(--b);border:1.5px solid var(--b)}
+
+/* RUBRIQUES */
+.rg{display:grid;grid-template-columns:repeat(3,1fr);border-left:var(--brd);border-top:var(--brd)}
+.rc{border-right:var(--brd);border-bottom:var(--brd);padding:26px;transition:background .18s}
+.rc:hover:not(.prc){background:var(--y)}
+.rnum{font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:12px;-webkit-text-stroke:1.5px #0A0A0A;color:var(--y);transition:all .18s}
+.rc:hover:not(.prc) .rnum{color:var(--b);-webkit-text-stroke:0}
+.prc{background:var(--b);color:var(--w)}.prc .rnum{color:var(--y);-webkit-text-stroke:0}
+.prc p{color:#999}.ppill{background:var(--y);color:var(--b);border:1.5px solid var(--y);font-size:.63rem;font-weight:900;padding:2px 9px;text-transform:uppercase;margin-bottom:10px;display:inline-block}
+.rc h3{font-size:.86rem;font-weight:900;margin-bottom:7px;line-height:1.25;text-transform:uppercase;letter-spacing:.02em}.rc p{font-size:.79rem;line-height:1.6;color:var(--g)}
+
+/* WHO */
+.wcard{max-width:700px;margin:0 auto;border:var(--brd);display:grid;grid-template-columns:140px 1fr;box-shadow:6px 6px 0 #0A0A0A}
+.wav-col{background:var(--y);border-right:var(--brd);padding:28px 18px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.wav{width:76px;height:76px;background:var(--b);border:var(--brd);display:flex;align-items:center;justify-content:center;font-size:1.35rem;font-weight:900;color:var(--y);letter-spacing:-.02em}
+.wav-name{font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--b);line-height:1.3}
+.wcont{padding:28px}
+.wrole{font-size:.7rem;font-weight:900;color:var(--g);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;padding-bottom:12px;border-bottom:var(--brd)}
+.wcont p{font-size:.86rem;color:#444;line-height:1.7;margin-bottom:12px}
+.wbadges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.wb{background:var(--of);border:1.5px solid #D0D0D0;padding:3px 11px;font-size:.72rem;font-weight:700}
+.wlinks{display:flex;gap:8px}
+.wlink{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;font-weight:800;border:var(--brd);padding:5px 12px;transition:background .15s;text-transform:uppercase;letter-spacing:.04em}
+.wlink:hover{background:var(--y)}
+.mcard{border:var(--brd);max-width:700px;margin:18px auto 0;display:grid;grid-template-columns:repeat(3,1fr);box-shadow:4px 4px 0 #0A0A0A}
+.mi{padding:18px 22px;text-align:center;border-right:var(--brd)}.mi:last-child{border-right:none}
+.mn{font-size:1.7rem;font-weight:900;line-height:1}.ml{font-size:.7rem;font-weight:800;color:var(--g);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+
+/* TESTIMONIALS */
+.tg{display:grid;grid-template-columns:repeat(3,1fr);border-left:var(--brd);border-top:var(--brd)}
+.tc{border-right:var(--brd);border-bottom:var(--brd);padding:26px}
+.tq{font-size:2.2rem;font-weight:900;color:var(--y);line-height:.8;margin-bottom:8px;-webkit-text-stroke:1.5px #0A0A0A}
+.tt{font-size:.84rem;color:#444;line-height:1.65;margin-bottom:16px;font-style:italic}
+.ta{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1.5px solid #E5E5E5}
+.tav{width:34px;height:34px;background:var(--b);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:900;color:var(--y);flex-shrink:0}
+.tn{font-size:.82rem;font-weight:900}.tr{font-size:.71rem;color:var(--g)}
+
+/* PERSONAS */
+.perg{display:grid;grid-template-columns:repeat(2,1fr);border-left:var(--brd);border-top:var(--brd);max-width:720px;margin:0 auto}
+.perc{border-right:var(--brd);border-bottom:var(--brd);padding:26px;transition:background .18s}
+.perc:hover{background:var(--y)}
+.pernum{font-size:2.2rem;font-weight:900;color:var(--y);line-height:.9;margin-bottom:12px;-webkit-text-stroke:2px #0A0A0A;transition:all .18s}
+.perc:hover .pernum{color:var(--b);-webkit-text-stroke:0}
+.pern{font-size:.9rem;font-weight:900;margin-bottom:4px;text-transform:uppercase;letter-spacing:.03em}
+.perq{font-size:.79rem;color:var(--g);font-style:italic;margin-bottom:8px}
+.perc p{font-size:.78rem;color:#444;line-height:1.55}
+.perc:hover p,.perc:hover .perq{color:rgba(10,10,10,.7)}
+
+/* PRICING */
+.pricg{display:grid;grid-template-columns:1fr 1fr;border:var(--brd);box-shadow:6px 6px 0 #0A0A0A;max-width:640px;margin:0 auto}
+.pricc{padding:32px 26px;border-right:var(--brd)}.pricf{background:var(--b);color:var(--w);border-right:none}
+.plbl{font-size:.7rem;font-weight:900;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;color:var(--g)}.pricf .plbl{color:#999}
+.pb2{background:var(--y);color:var(--b);font-size:.7rem;font-weight:900;padding:4px 12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;display:inline-block;border:1.5px solid var(--y)}
+.pamt{font-size:2.8rem;font-weight:900;line-height:1;margin-bottom:4px}.pamt span{font-size:.9rem;font-weight:400}
+.pstrike{font-size:.76rem;color:#888;text-decoration:line-through;margin-bottom:4px}
+.fbox{background:var(--y);color:var(--b);border:1.5px solid var(--b);padding:7px 12px;margin-bottom:14px;font-size:.78rem;font-weight:900}
+.pdesc{font-size:.8rem;color:var(--g);margin-bottom:18px;line-height:1.5}.pricf .pdesc{color:#999}
+.ptabs{display:flex;border:var(--brd);margin-bottom:12px}
+.ptab{flex:1;text-align:center;padding:7px 4px;font-size:.76rem;color:#888;cursor:pointer;transition:all .15s;border-right:var(--brd);font-weight:800;text-transform:uppercase;background:var(--b);line-height:1.3}
+.ptab:last-child{border-right:none}.ptab.on{background:var(--y);color:var(--b)}
+.ptab small{font-size:.64rem;display:block;color:var(--y)}.ptab.on small{color:rgba(10,10,10,.6)}
+.pfl{list-style:none;margin-bottom:22px}.pfl li{display:flex;align-items:flex-start;gap:9px;font-size:.82rem;margin-bottom:9px;line-height:1.35}
+.fc{color:var(--y);font-weight:900;margin-top:1px}.fl{color:#555;margin-top:1px;opacity:.4}
+.pricf .pfl li{color:#ccc}
+
+/* FAQ */
+.fql{max-width:640px;margin:0 auto;border:var(--brd);box-shadow:4px 4px 0 #0A0A0A}
+.fqi{border-bottom:var(--brd)}.fqi:last-child{border-bottom:none}
+.fqq{padding:16px 20px;font-weight:800;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;transition:background .15s;text-transform:uppercase;letter-spacing:.02em;font-size:.82rem}
+.fqq:hover{background:var(--y)}
+.farr{flex-shrink:0;width:22px;height:22px;background:var(--b);color:var(--y);display:flex;align-items:center;justify-content:center;transition:transform .25s;font-size:1rem;font-weight:900;line-height:1}
+.fqi.open .farr{transform:rotate(180deg);background:var(--y);color:var(--b)}
+.fqa{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s;font-size:.86rem;color:var(--g);line-height:1.7;padding:0 20px;background:var(--of);border-top:0}
+.fqi.open .fqa{max-height:250px;padding:14px 20px 18px;border-top:var(--brd)}
+
+/* FINAL CTA */
+#fcta{background:var(--y);border-bottom:var(--brd);padding:88px 0;text-align:center}
+.fcard{border:var(--brd);padding:48px 40px;max-width:540px;margin:0 auto;background:var(--w);box-shadow:8px 8px 0 #0A0A0A;position:relative;overflow:hidden}
+.fcard::before{content:'ZZ';position:absolute;font-size:200px;font-weight:900;color:rgba(10,10,10,.04);right:-10px;bottom:-20px;line-height:1;letter-spacing:-.05em;pointer-events:none}
+.ftitle{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:900;margin-bottom:14px;line-height:1.07;letter-spacing:-.03em;text-transform:uppercase}
+.ftitle mark{background:var(--y);padding:0 5px;color:var(--b)}
+.fsub{color:var(--g);font-size:.97rem;margin-bottom:28px;line-height:1.55}
+.fform{display:flex;gap:0;max-width:440px;margin:0 auto 14px;border:var(--brd);box-shadow:4px 4px 0 #0A0A0A}
+.fform input{background:var(--w);border:none;border-right:var(--brd);padding:13px 16px;font-size:.92rem;color:var(--b);outline:none;flex:1;min-width:180px}
+.fform .btn{border:none;box-shadow:none;transform:none;white-space:nowrap}
+.fform .btn:hover{transform:none;box-shadow:none}
+.fg2{font-size:.76rem;color:var(--g);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.fg2 span{display:flex;align-items:center;gap:5px;font-weight:700}
+.urg{margin-top:14px;font-size:.8rem;color:var(--b);font-weight:900;display:flex;align-items:center;justify-content:center;gap:6px}
+footer{background:var(--b);color:var(--w);text-align:center;padding:30px;font-size:.77rem}
+footer a{color:var(--y);text-decoration:underline;text-underline-offset:3px}
+footer p+p{margin-top:8px;opacity:.5}
+
+@media(max-width:768px){.hero-grid{grid-template-columns:1fr}.hero-r{display:none}.vsg,.pricg,.perg{grid-template-columns:1fr}.vsc.va{border-left:none;border-top:var(--brd)}.rg{grid-template-columns:1fr 1fr}.tg{grid-template-columns:1fr}.nl{display:none}.wcard{grid-template-columns:1fr}.wav-col{flex-direction:row;min-width:auto;padding:16px 20px}.mcard{grid-template-columns:1fr}.fcard{padding:32px 20px}.pricc{border-right:none;border-bottom:var(--brd)}.hero-l{padding:48px 28px}}
+@media(max-width:480px){.rg{grid-template-columns:1fr}.mcard{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- FOUNDERS BANNER -->
+<div class="fbanner">
+  ▲ OFFRE FONDATEURS — Rejoignez ZZ IA maintenant et bloquez votre tarif à <strong>3€/mois à vie.</strong>
+  <span class="fc-pill"><strong><span class="spots">143</span> places restantes</strong></span>
+  <a href="#pricing">Profiter de l'offre →</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-i">
+    <div class="logo-wrap">
+      <svg height="34" viewBox="0 0 178 40" xmlns="http://www.w3.org/2000/svg">
+        <text y="36" font-family="'Arial Black','Impact',sans-serif" font-size="44" font-weight="900" fill="#FFBF00" stroke="#0A0A0A" stroke-width="2.5" paint-order="stroke fill" letter-spacing="-3">ZZ</text>
+        <text x="96" y="36" font-family="'Arial Black','Impact',sans-serif" font-size="44" font-weight="900" fill="#0A0A0A" letter-spacing="-2">IA</text>
+      </svg>
+    </div>
+    <div class="nl">
+      <a href="#preview">Exemple</a>
+      <a href="#rubriques">Contenu</a>
+      <a href="#who">L'auteur</a>
+      <a href="#pricing">Tarifs</a>
+    </div>
+    <div class="nav-cta"><a href="#fcta"><button class="btn" style="font-size:.8rem;padding:10px 20px;box-shadow:3px 3px 0 #0A0A0A">Commencer →</button></a></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-l">
+      <div class="htag rv"><span class="tag">La newsletter IA pour ceux qui ont autre chose à faire</span></div>
+      <h1 class="htitle rv d1">L'IA vous<br>dépasse ?<br><span class="hy">Bienvenue<br>chez ZZ IA.</span></h1>
+      <p class="hsub rv d2">Chaque lundi, on filtre 40+ sources IA pour vous garder <strong>exactement ce qui compte</strong>. Zéro jargon technique. Zéro heures de veille de votre côté. 3 minutes, c'est tout.</p>
+      <form class="hform rv d3" onsubmit="return false">
+        <input type="email" placeholder="votre@email.fr"/>
+        <button class="btn">Je veux l'essentiel →</button>
+      </form>
+      <p class="htrust rv d4">Gratuit · Premium à <strong>3€/mois</strong> (Fondateurs) · Désabonnement 1 clic</p>
+    </div>
+    <div class="hero-r rv">
+      <div style="position:relative;z-index:1">
+        <div style="font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;opacity:.6">Chaque lundi matin</div>
+        <div style="font-size:1.05rem;font-weight:900;line-height:1.35;max-width:280px">"Je lis ZZ IA. Je comprends ce qui se passe vraiment. Je passe à autre chose."</div>
+        <div style="font-size:.78rem;margin-top:12px;opacity:.65;font-weight:600">C'est tout ce qu'on vous demande.</div>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><div class="sn">340+</div><div class="sl">lecteurs qui ne se noient plus</div></div>
+        <div class="hs"><div class="sn">3 min</div><div class="sl">par semaine, pas une de plus</div></div>
+        <div class="hs"><div class="sn">40+</div><div class="sl">sources lues à votre place</div></div>
+        <div class="hs"><div class="sn">0</div><div class="sl">prérequis technique requis</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SBAR -->
+<div class="sbar">
+  <div class="sbar-i">
+    <div class="sbar-item"><span class="sbar-dot"></span>340+ abonnés qui ont arrêté de se sentir dépassés</div>
+    <div class="sbar-item"><span class="sbar-dot"></span>3 minutes par semaine, pas une de plus</div>
+    <div class="sbar-item"><span class="sbar-dot"></span>Aucun prérequis technique</div>
+    <div class="sbar-item"><span class="sbar-dot"></span>100% en français</div>
+  </div>
+</div>
+
+<!-- PREVIEW -->
+<section id="preview" class="sec">
+  <div class="ctr">
+    <span class="tag tag-inv stag rv">Extrait d'une vraie édition</span>
+    <h2 class="stitle rv">Voici ce qui atterrit<br>dans votre boîte chaque lundi</h2>
+    <p class="ssub rv">Format exact. Pas de mise en page fictive. Ce que vous voyez, c'est ce que vous recevez.</p>
+    <div class="pw rv">
+      <div class="ph"><div class="pdots"><span></span><span></span><span></span></div><div class="psubj"><strong>ZZ IA #12</strong> — Arnaud Jacqueline · Lundi 5 mai 2026</div></div>
+      <div class="pb">
+        <p class="pgreet">Bonjour,<br>Semaine chargée en annonces IA. J'ai tout lu. Voici les 3 trucs qui méritent vraiment votre attention.</p>
+        <div class="prub">
+          <div class="prhd"><span class="prl">01 · Gratuit</span><span class="pr-lbl">L'essentiel de la semaine</span></div>
+          <h4>Ce qui s'est vraiment passé (et pourquoi les autres articles vous ont menti)</h4>
+          <p>Apple, Microsoft et OpenAI ont tous fait des annonces majeures. 90% des articles publiés cette semaine sont du bruit. Voici les 3 faits qui changent quelque chose — et les 47 autres que vous pouvez ignorer sans aucun remords...</p>
+        </div>
+        <div class="prub">
+          <div class="prhd"><span class="prl">03 · Gratuit</span><span class="pr-lbl">Le chiffre à retenir</span></div>
+          <h4>72%</h4>
+          <p>Des salariés français utilisent déjà l'IA au travail. Sans en parler à leur employeur. Ce que ça dit sur la transformation réelle — pas celle dont parlent les médias, l'autre, celle qui se passe en ce moment dans les open spaces...</p>
+        </div>
+        <div class="prub">
+          <div class="prhd"><span class="prl prl-prem">02 · Premium</span><span class="pr-lbl">Ce que ça veut dire pour vous</span></div>
+          <h4>Concrètement, qu'est-ce que ça change ?</h4>
+          <p class="blr">Les annonces de cette semaine ont des implications directes sur votre quotidien, votre métier ou votre secteur. Voici ce qui mérite votre attention maintenant, ce qui peut attendre 6 mois, et le seul outil qui vaut vraiment la peine d'être testé cette semaine...</p>
+          <div class="pu"><p>Analyse complète réservée aux abonnés Premium</p><a href="#pricing"><button class="btn" style="font-size:.8rem;padding:10px 20px;box-shadow:3px 3px 0 #0A0A0A">Accéder à l'analyse →</button></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VS -->
+<section id="vs" class="sec" style="background:var(--of)">
+  <div class="ctr">
+    <span class="tag stag rv">Avant / Après ZZ IA</span>
+    <h2 class="stitle rv">Vous lisez déjà des trucs sur l'IA.<br>Ça ne change rien, n'est-ce pas ?</h2>
+    <p class="ssub rv">Le problème n'est pas le manque d'informations. C'est l'excès d'informations mal filtrées.</p>
+    <div class="vsg">
+      <div class="vsc vb rv">
+        <h3><span class="vi vix">✕</span>Votre semaine sans ZZ IA</h3>
+        <ul class="vsl">
+          <li><span class="vi vix">✕</span>Vous ouvrez LinkedIn et tombez sur 30 posts "révolutionnaires" sur l'IA. Vous fermez LinkedIn.</li>
+          <li><span class="vi vix">✕</span>Vous ne savez pas si une info est vraiment importante ou juste du hype marketing</li>
+          <li><span class="vi vix">✕</span>Vous lisez un article en entier et repartez plus confus qu'avant</li>
+          <li><span class="vi vix">✕</span>Vos collègues parlent de nouveaux outils IA. Vous hochez la tête poliment.</li>
+          <li><span class="vi vix">✕</span>Vous vous dites "je devrais me tenir au courant" — depuis 18 mois</li>
+        </ul>
+      </div>
+      <div class="vsc va rv d2">
+        <h3><span class="vi vic">✓</span>Votre lundi avec ZZ IA</h3>
+        <ul class="vsl">
+          <li><span class="vi vic">✓</span>1 email. 3 minutes. Vous savez ce qui s'est passé en IA cette semaine.</li>
+          <li><span class="vi vic">✓</span>Vous distinguez clairement ce qui compte de ce qui ne mérite pas votre temps</li>
+          <li><span class="vi vic">✓</span>Vous repartez avec une vision nette — sans avoir besoin de tout comprendre</li>
+          <li><span class="vi vic">✓</span>Vous pouvez parler d'IA avec assurance, sans être un expert ni faire semblant</li>
+          <li><span class="vi vic">✓</span>Vous avez fait votre veille IA pour la semaine. Ça vous a pris 3 minutes.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RUBRIQUES -->
+<section id="rubriques" class="sec">
+  <div class="ctr">
+    <span class="tag stag rv">Chaque semaine, sans exception</span>
+    <h2 class="stitle rv">5 rubriques. Toujours dans l'ordre.<br>Conçues pour les gens pressés.</h2>
+    <p class="ssub rv">Une structure fixe, prévisible, efficace. Vous savez toujours où trouver ce que vous cherchez. Pas de remplissage.</p>
+    <div class="rg">
+      <div class="rc rv"><div class="rnum">01</div><div style="font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin-bottom:10px">Gratuit</div><h3>"L'essentiel de la semaine"</h3><p>On a lu 40+ sources. Vous lisez 3 faits. Ceux qui méritent votre attention, et uniquement ceux-là. Les autres ? On s'en charge.</p></div>
+      <div class="rc prc rv d1"><div class="ppill">★ Premium</div><div class="rnum">02</div><h3>"Ce que ça veut dire pour vous"</h3><p>Chaque actu traduite en clair. Pas "voilà ce qui s'est passé", mais "voilà ce que ça change pour vous, maintenant, concrètement."</p></div>
+      <div class="rc rv d2"><div class="rnum">03</div><div style="font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin-bottom:10px">Gratuit</div><h3>"Le chiffre à retenir"</h3><p>1 statistique IA. Sourcée, contextualisée, expliquée en 4 lignes. Le genre de chiffre que vous ressortirez naturellement en conversation.</p></div>
+      <div class="rc prc rv d1"><div class="ppill">★ Premium</div><div class="rnum">04</div><h3>"On décrypte"</h3><p>Un outil IA, un acteur, un concept. Expliqué clairement pour que vous n'ayez plus jamais à hocher la tête en faisant semblant de comprendre.</p></div>
+      <div class="rc rv d2"><div class="rnum">05</div><div style="font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin-bottom:10px">Gratuit</div><h3>"À retenir / À ignorer"</h3><p>La synthèse en 2 bullets. Ce qui mérite 5 minutes de votre cerveau. Ce que vous pouvez oublier sans aucune culpabilité.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section id="who" class="sec" style="background:var(--of)">
+  <div class="ctr">
+    <span class="tag stag rv">Qui est derrière ZZ IA ?</span>
+    <h2 class="stitle rv">Pas une IA. Pas une équipe anonyme.<br>Une vraie personne qui a fait le tri.</h2>
+    <p class="ssub rv">Il fallait quelqu'un qui lit tout pour que vous n'ayez pas à le faire. C'est Arnaud.</p>
+    <div class="wcard rv">
+      <div class="wav-col">
+        <div class="wav">AJ</div>
+        <div class="wav-name">Arnaud<br>Jacqueline</div>
+      </div>
+      <div class="wcont">
+        <div class="wrole">Consultant-Formateur IA appliquée — Fondateur ZZ IA</div>
+        <p>Depuis 2018, j'accompagne des dirigeants et des équipes dans la compréhension et l'application concrète de l'IA. Pas la théorie. Ce qui marche vraiment, pour les gens qui n'ont pas le temps de tout tester.</p>
+        <p>Chaque semaine, je lis 40+ sources IA — newsletters, rapports, annonces, analyses. Mon travail, c'est de faire le tri entre ce qui compte et le reste. ZZ IA, c'est ce tri livré directement dans votre boîte. En 3 minutes.</p>
+        <p>J'ai formé plus de 300 professionnels sur l'IA. La question que j'entends le plus souvent : <em>"Par où commencer ?"</em> ZZ IA est ma réponse.</p>
+        <div class="wbadges"><span class="wb">IA appliquée depuis 2018</span><span class="wb">300+ professionnels formés</span><span class="wb">Formateur certifié</span><span class="wb">Veilleur IA</span></div>
+        <div class="wlinks"><a href="#" class="wlink">↗ LinkedIn</a><a href="#" class="wlink">↗ Mon site</a></div>
+      </div>
+    </div>
+    <div class="mcard rv">
+      <div class="mi"><div class="mn">40+</div><div class="ml">sources lues / semaine</div></div>
+      <div class="mi"><div class="mn">300+</div><div class="ml">professionnels formés</div></div>
+      <div class="mi"><div class="mn">7 ans</div><div class="ml">de terrain sur l'IA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="sec">
+  <div class="ctr">
+    <span class="tag stag rv">Ce qu'ils en disent</span>
+    <h2 class="stitle rv">Des gens normaux<br>qui ne se sentent plus perdus.</h2>
+    <p class="ssub rv">Pas des experts. Des lecteurs qui avaient exactement votre profil il y a quelques semaines.</p>
+    <div class="tg">
+      <div class="tc rv">
+        <div class="tq">"</div>
+        <p class="tt">J'entendais parler d'IA partout au boulot et je hochais la tête sans vraiment comprendre. Depuis ZZ IA, je suis celle qui explique aux autres. Ça a pris 3 semaines.</p>
+        <div class="ta"><div class="tav">CL</div><div><div class="tn">Charlotte L.</div><div class="tr">Responsable marketing, 34 ans</div></div></div>
+      </div>
+      <div class="tc rv d2">
+        <div class="tq">"</div>
+        <p class="tt">J'avais essayé 4 newsletters IA avant. Je les fermais toutes au bout de 2 paragraphes, trop techniques. ZZ IA est la première que je lis jusqu'au bout, chaque semaine, depuis 3 mois.</p>
+        <div class="ta"><div class="tav">TD</div><div><div class="tn">Thomas D.</div><div class="tr">Chef de projet, 41 ans</div></div></div>
+      </div>
+      <div class="tc rv d4">
+        <div class="tq">"</div>
+        <p class="tt">Je n'ai pas le temps de faire de la veille IA. ZZ IA le fait à ma place. Le lundi matin, j'ouvre, je lis 3 minutes, je sais ce qui s'est passé. C'est exactement ce dont j'avais besoin.</p>
+        <div class="ta"><div class="tav">IB</div><div><div class="tn">Isabelle B.</div><div class="tr">Dirigeante PME, 48 ans</div></div></div>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--g);font-size:.74rem;margin-top:14px;font-style:italic">Retours reçus par email suite aux premières éditions.</p>
+  </div>
+</section>
+
+<!-- PERSONAS -->
+<section id="personas" class="sec" style="background:var(--of)">
+  <div class="ctr">
+    <span class="tag stag rv">Pour qui ?</span>
+    <h2 class="stitle rv">Vous n'avez pas besoin d'être<br>passionné d'IA pour lire ZZ IA.</h2>
+    <p class="ssub rv">Il suffit de ne plus vouloir se sentir dépassé. C'est une motivation largement suffisante.</p>
+    <div class="perg">
+      <div class="perc rv"><div class="pernum">01</div><p class="pern">Le professionnel submergé</p><div class="perq">"Je vois des news IA partout. Je ne sais pas quoi en penser."</div><p>L'IA est omniprésente dans votre secteur, vos réunions, vos fils d'actu. Vous lisez, mais ça ne filtre pas. ZZ IA fait le tri à votre place, chaque semaine.</p></div>
+      <div class="perc rv d2"><div class="pernum">02</div><p class="pern">Le curieux sans méthode</p><div class="perq">"Je suis intéressé par l'IA mais je ne sais pas par où commencer."</div><p>Vous avez voulu vous y mettre plusieurs fois. Mais il y a trop de portes d'entrée. ZZ IA est votre point d'entrée : une source, structurée, chaque semaine.</p></div>
+      <div class="perc rv d1"><div class="pernum">03</div><p class="pern">Le manager qui veut rester pertinent</p><div class="perq">"Mes équipes et clients parlent d'IA. Je dois comprendre sans me perdre."</div><p>Vous n'avez pas besoin d'être expert. Vous avez besoin de comprendre l'essentiel, de savoir poser les bonnes questions. C'est exactement ce que ZZ IA vous donne.</p></div>
+      <div class="perc rv d3"><div class="pernum">04</div><p class="pern">La personne qui n'a pas le temps</p><div class="perq">"Je sais que c'est important. Je veux l'essentiel, pas un cours complet."</div><p>Vous avez d'autres priorités. C'est normal. ZZ IA ne vous demande pas de devenir un expert. Juste 3 minutes le lundi matin pour ne plus être à la traîne.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="sec">
+  <div class="ctr">
+    <span class="tag tag-inv stag rv">▲ Offre Fondateurs · <span class="spots">143</span> places restantes</span>
+    <h2 class="stitle rv">Commencez gratuitement.<br>Upgradez si vous trouvez ça utile.</h2>
+    <p class="ssub rv">L'offre Fondateurs bloque votre tarif à <strong>3€/mois à vie</strong>. Elle ferme à 200 abonnés Premium. Après, ce sera 5€.</p>
+    <div class="pricg">
+      <div class="pricc rv">
+        <div class="plbl">Gratuit — pour toujours</div>
+        <div class="pamt">0€</div>
+        <div class="pdesc">Pour tester sans engagement. Déjà très utile. Restez sur le gratuit aussi longtemps que vous voulez.</div>
+        <ul class="pfl">
+          <li><span class="fc">✓</span>L'essentiel de la semaine (Rubrique 01)</li>
+          <li><span class="fc">✓</span>Le chiffre à retenir (Rubrique 03)</li>
+          <li><span class="fc">✓</span>À retenir / À ignorer (Rubrique 05)</li>
+          <li><span class="fl">⊘</span><span style="opacity:.4">Ce que ça veut dire pour vous</span></li>
+          <li><span class="fl">⊘</span><span style="opacity:.4">On décrypte (outil / acteur / concept)</span></li>
+        </ul>
+        <a href="#fcta"><button class="btn-out btn" style="width:100%">S'abonner gratuitement</button></a>
+      </div>
+      <div class="pricc pricf rv d2">
+        <div class="pb2">★ Offre Fondateurs</div>
+        <div class="plbl">Premium</div>
+        <div class="ptabs">
+          <div class="ptab on" id="tab-m" onclick="setP('m')">Mensuel</div>
+          <div class="ptab" id="tab-a" onclick="setP('a')">Annuel<small>2 mois offerts</small></div>
+        </div>
+        <div class="pstrike" id="s-price">Tarif normal : 5€/mois</div>
+        <div class="pamt" id="d-price">3€<span>/mois</span></div>
+        <div class="fbox">★ Tarif Fondateurs bloqué à vie — <span class="spots">143</span> places</div>
+        <div class="pdesc" id="d-desc">L'édition complète. Résiliable à tout moment.</div>
+        <ul class="pfl">
+          <li><span class="fc">✓</span>Tout le contenu Gratuit inclus</li>
+          <li><span class="fc">✓</span>Ce que ça veut dire pour vous (02)</li>
+          <li><span class="fc">✓</span>On décrypte — 1 outil/acteur/concept (04)</li>
+          <li><span class="fc">✓</span>Accès à toutes les archives</li>
+          <li><span class="fc">✓</span>Tarif Fondateurs garanti à vie</li>
+        </ul>
+        <a href="#fcta"><button class="btn" style="width:100%;box-shadow:4px 4px 0 rgba(255,191,0,.3)" id="p-cta">Bloquer mon tarif Fondateurs →</button></a>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--g);font-size:.76rem;margin-top:16px;font-weight:600">Annulation à tout moment · Pas d'engagement · Paiement sécurisé Stripe</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec" style="background:var(--of)">
+  <div class="ctr">
+    <h2 class="stitle rv">Questions fréquentes</h2>
+    <p class="ssub rv">Les vraies objections. Les vraies réponses. Sans langue de bois.</p>
+    <div class="fql rv">
+      <div class="fqi"><div class="fqq">Je ne suis pas dans la tech. ZZ IA est quand même pour moi ?<span class="farr">↓</span></div><div class="fqa">C'est exactement pour vous. ZZ IA n'est pas écrite pour des développeurs ou des passionnés d'IA. Elle est écrite pour des professionnels curieux qui veulent comprendre ce qui se passe, sans devoir tout apprendre. Zéro jargon technique. Si vous avez 10 ans d'études en philosophie ou en vente, vous lirez ZZ IA sans problème.</div></div>
+      <div class="fqi"><div class="fqq">Pourquoi ne pas simplement demander à ChatGPT ?<span class="farr">↓</span></div><div class="fqa">ChatGPT répond aux questions que vous posez. Mais encore faut-il savoir quoi demander, quels faits vérifier, quelles sources surveiller. Arnaud fait ce travail de veille depuis 2018. Il sait ce qui est un signal vs ce qui est du bruit dans l'actualité IA. Le prompt ne remplace pas le jugement forgé sur la durée.</div></div>
+      <div class="fqi"><div class="fqq">C'est vraiment 3 minutes ? Vous n'exagérez pas ?<span class="farr">↓</span></div><div class="fqa">Vraiment. La structure est fixe et pensée pour ça : 3 rubriques courtes en gratuit, 2 rubriques plus denses en Premium. Si vous lisez vite, c'est 2 minutes. Si vous voulez vraiment creuser la rubrique Premium, ça peut aller à 6-7 minutes. Mais jamais plus. C'est une contrainte qu'Arnaud s'impose à chaque édition.</div></div>
+      <div class="fqi"><div class="fqq">Qu'est-ce qui vous différencie des centaines d'autres newsletters IA ?<span class="farr">↓</span></div><div class="fqa">Deux choses. D'abord, ZZ IA est en français, avec un regard ancré dans le contexte européen — pas une adaptation d'une newsletter américaine. Ensuite, l'angle : ZZ IA ne cherche pas à tout couvrir. Elle cherche à vous faire gagner du temps en filtrant pour vous. Le filtre humain, c'est la valeur ajoutée — pas la quantité d'information.</div></div>
+      <div class="fqi"><div class="fqq">La version gratuite suffit-elle ?<span class="farr">↓</span></div><div class="fqa">Pour rester informé des grandes tendances, oui. Les 3 rubriques gratuites couvrent l'essentiel de l'actualité. La Premium va plus loin : elle vous dit ce que ça change concrètement pour vous, et décrypte un outil ou acteur IA chaque semaine. Si vous êtes professionnel ou si vous prenez des décisions influencées par l'IA, le Premium est fait pour vous.</div></div>
+      <div class="fqi"><div class="fqq">Mon email, qu'est-ce que vous en faites ?<span class="farr">↓</span></div><div class="fqa">Votre email sert uniquement à envoyer ZZ IA. Jamais vendu, jamais partagé, jamais utilisé pour autre chose. Conformément au RGPD, vous pouvez demander la suppression à tout moment en répondant "Désabonnement" à n'importe quelle édition.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="fcta">
+  <div class="ctr" style="padding:88px 28px;text-align:center">
+    <div class="fcard rv">
+      <span class="tag tag-inv" style="margin-bottom:22px;display:inline-flex">▲ OFFRE FONDATEURS · <span class="spots" style="margin-left:6px">143</span> PLACES</span>
+      <h2 class="ftitle">Arrêtez de vous sentir<br>dépassé par l'IA.<br><mark>3 minutes par semaine.</mark></h2>
+      <p class="fsub">340 personnes ont déjà arrêté de subir l'information IA. Rejoignez-les gratuitement. Et si vous voulez aller plus loin, bloquez votre tarif Fondateurs à 3€/mois à vie avant que les 200 places soient prises.</p>
+      <form class="fform" onsubmit="return false">
+        <input type="email" placeholder="votre@email.fr"/>
+        <button class="btn">Je veux l'essentiel →</button>
+      </form>
+      <div class="fg2">
+        <span>✓ Conforme RGPD</span>
+        <span>✓ Stripe sécurisé</span>
+        <span>✓ Désabonnement 1 clic</span>
+      </div>
+      <div class="urg">▲ L'offre Fondateurs à 3€/mois ferme à 200 abonnés Premium. Il reste <strong style="margin-left:4px"><span class="spots">143</span> places</strong>.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="margin-bottom:14px">
+    <svg height="28" viewBox="0 0 178 40" xmlns="http://www.w3.org/2000/svg">
+      <text y="34" font-family="'Arial Black','Impact',sans-serif" font-size="38" font-weight="900" fill="#FFBF00" stroke="#fff" stroke-width="1.5" paint-order="stroke fill" letter-spacing="-3">ZZ</text>
+      <text x="83" y="34" font-family="'Arial Black','Impact',sans-serif" font-size="38" font-weight="900" fill="#fff" letter-spacing="-2">IA</text>
+    </svg>
+  </div>
+  <p><a href="#preview">Voir un exemple</a> &nbsp;·&nbsp; <a href="#pricing">Tarifs</a> &nbsp;·&nbsp; <a href="#faq">FAQ</a> &nbsp;·&nbsp; <a href="#">Mentions légales</a> &nbsp;·&nbsp; <a href="#">Confidentialité</a></p>
+  <p>© 2026 ZZ IA — Arnaud Jacqueline · La newsletter IA pour ceux qui ont autre chose à faire.</p>
+  <p>L'information fournie est à titre éducatif et informatif uniquement.</p>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+document.querySelectorAll('.fqq').forEach(q=>{q.addEventListener('click',()=>{const i=q.parentElement,was=i.classList.contains('open');document.querySelectorAll('.fqi').forEach(x=>x.classList.remove('open'));if(!was)i.classList.add('open');});});
+function setP(m){
+  const a=m==='a';
+  document.getElementById('tab-m').classList.toggle('on',!a);
+  document.getElementById('tab-a').classList.toggle('on',a);
+  document.getElementById('d-price').innerHTML=a?'36€<span>/an</span>':'3€<span>/mois</span>';
+  document.getElementById('s-price').textContent=a?'Tarif normal : 60€/an':'Tarif normal : 5€/mois';
+  document.getElementById('d-desc').textContent=a?'Soit 3€/mois. 2 mois offerts vs le mensuel.':'L\'édition complète. Résiliable à tout moment.';
+  document.getElementById('p-cta').textContent=a?'Bloquer mon tarif annuel →':'Bloquer mon tarif Fondateurs →';
+}
+document.querySelectorAll('.spots').forEach(el=>el.textContent='143');
+</script>
+</body>
+</html>
